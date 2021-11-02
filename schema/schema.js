@@ -93,6 +93,20 @@ const mutation = new GraphQLObjectType({
           .delete(`http://localhost:4001/users/${id}`)
           .then((res) => res.data);
       }
+    },
+    editUser: {
+      type: UserType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        firstName: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        companyId: { type: GraphQLID }
+      },
+      resolve(parentValue, args) {
+        return axios
+          .patch(`http://localhost:4001/users/${args.id}`, args)
+          .then((res) => res.data);
+      }
     }
   }
 });
