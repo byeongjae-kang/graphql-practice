@@ -1,7 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
+import Container from "./components/Container";
 import SongList from "./components/SongList";
 
 const client = new ApolloClient({
@@ -9,12 +11,18 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const Root = () => {
+const App = () => {
   return (
     <ApolloProvider client={client}>
-      <SongList />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Container />}>
+            <Route index element={<SongList />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </ApolloProvider>
   );
 };
 
-ReactDOM.render(<Root />, document.querySelector("#root"));
+ReactDOM.render(<App />, document.querySelector("#root"));
