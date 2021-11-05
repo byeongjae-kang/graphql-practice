@@ -8,6 +8,8 @@ import Container from "./components/Container";
 import SongList from "./components/SongList";
 import NewSong from "./components/NewSong";
 
+import './style/style.css'
+
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache()
