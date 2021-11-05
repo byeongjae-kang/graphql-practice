@@ -32,7 +32,7 @@ const SongList = () => {
   const renderSongs = fetchSongs.data.songs.map(({ id, title }) => {
     return (
       <li key={id} className="collection-item">
-        <p>{title}</p>
+        <Link to={`${id}`}>{title}</Link>
         <i className="material-icons" onClick={() => deleteSongHandler(id)}>
           delete
         </i>
