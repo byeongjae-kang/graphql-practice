@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import Layout from "./layout/Layout";
@@ -20,7 +20,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Container />}>
-              <Route index element={<SongList />} />
+              <Route index element={<Navigate to="songs" />} />
               <Route path="songs" element={<SongList />} />
               <Route path="songs/new" element={<NewSong />} />
             </Route>
