@@ -7,3 +7,7 @@
 i {
   cursor: pointer;
 }
+
+.container {
+  padding-top: 1rem;
+}
