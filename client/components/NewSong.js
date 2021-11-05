@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useNavigate, Link } from "react-router-dom";
-import fetchSongs from "../queries/fetchSongs";
+import fetchSongsQuery from "../queries/fetchSongs";
 
 const ADD_SONG = gql`
   mutation AddSong($title: String) {
@@ -12,7 +12,7 @@ const ADD_SONG = gql`
 `;
 
 const NewSong = () => {
-  const [addSong, { loading, error, data }] = useMutation(ADD_SONG);
+  const [addSong, { loading, error }] = useMutation(ADD_SONG);
   const [title, setTitle] = useState("");
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const NewSong = () => {
 
     addSong({
       variables: { title },
-      refetchQueries: [{ query: fetchSongs }]
+      refetchQueries: [{ query: fetchSongsQuery }]
     }).then(() => {
       setTitle("");
       navigate("/songs");
