@@ -1,22 +1,41 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
+import { gql, useQuery, useMutation } from "@apollo/client";
 import { Link } from "react-router-dom";
-import fetchSongs from "../queries/fetchSongs";
+import fetchSongsQuery from "../queries/fetchSongs";
+
+const deleteSongQuery = gql`
+  mutation DeleteSong($id: ID) {
+    deleteSong(id: $id) {
+      id
+    }
+  }
+`;
 
 const SongList = () => {
-  const { loading, error, data } = useQuery(fetchSongs);
+  const fetchSongs = useQuery(fetchSongsQuery);
+  const deleteSong = useMutation(deleteSongQuery);
 
-  if (loading) {
+  if (fetchSongs.loading || deleteSong.loading) {
     return <p>Loading...</p>;
   }
-  if (error) {
+  if (fetchSongs.error || deleteSong.error) {
     return <p>Error :(</p>;
   }
 
-  const renderSongs = data.songs.map((song) => {
+  const deleteSongHandler = (songId) => {
+    deleteSong[0]({
+      variables: { id: songId },
+      refetchQueries: [{ query: fetchSongsQuery }]
+    });
+  };
+
+  const renderSongs = fetchSongs.data.songs.map(({ id, title }) => {
     return (
-      <li key={song.id} className="collection-item">
-        {song.title}
+      <li key={id} className="collection-item">
+        <p>{title}</p>
+        <i className="material-icons" onClick={() => deleteSongHandler(id)}>
+          delete
+        </i>
       </li>
     );
   });
